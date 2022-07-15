@@ -450,9 +450,8 @@ dependencies = [
 
 [[package]]
 name = "inplace_it"
-version = "0.3.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "90953f308a79fe6d62a4643e51f848fbfddcd05975a38e69fdf4ab86a7baf7ca"
+version = "0.3.4"
+source = "git+https://github.com/NotIntMan/inplace_it.git?rev=3f479a3#3f479a316675dd636e35d0986a799129db27270b"
 
 [[package]]
 name = "instant"

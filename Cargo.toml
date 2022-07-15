@@ -59,3 +59,6 @@ resolver = "2"
 members = [
 	"examples/helper"
 ]
+
+[patch.crates-io]
+inplace_it = { git = "https://github.com/NotIntMan/inplace_it.git", rev = "3f479a3" } # Until inplace_it gets updated to 0.3.4 in wgpu-hal
