@@ -323,8 +323,13 @@ pub unsafe extern "C" fn wgpuCommandEncoderWriteTimestamp(
 pub unsafe extern "C" fn wgpuComputePassEncoderEnd(pass_handle: native::WGPUComputePassEncoder) {
     let (pass, context) = unwrap_compute_pass_encoder(pass_handle);
     let encoder_id = pass.parent_id();
-    gfx_select!(encoder_id => context.command_encoder_run_compute_pass(encoder_id, pass))
-        .expect("Unable to end compute pass");
+    let error =
+        gfx_select!(encoder_id => context.command_encoder_run_compute_pass(encoder_id, pass));
+    if let Err(error) = error {
+        // TODO figure out what device the render pipeline belongs to and call
+        // handle_device_error()
+        log::error!("Unable to end compute pass: {:?}", error);
+    }
 
     // NOTE: Automatically drops the encoder
     pass_handle.drop();
@@ -334,8 +339,13 @@ pub unsafe extern "C" fn wgpuComputePassEncoderEnd(pass_handle: native::WGPUComp
 pub unsafe extern "C" fn wgpuRenderPassEncoderEnd(pass_handle: native::WGPURenderPassEncoder) {
     let (pass, context) = unwrap_render_pass_encoder(pass_handle);
     let encoder_id = pass.parent_id();
-    gfx_select!(encoder_id => context.command_encoder_run_render_pass(encoder_id, pass))
-        .expect("Unable to end render pass");
+    let error =
+        gfx_select!(encoder_id => context.command_encoder_run_render_pass(encoder_id, pass));
+    if let Err(error) = error {
+        // TODO figure out what device the render pipeline belongs to and call
+        // handle_device_error()
+        log::error!("Unable to end render pass: {:?}", error);
+    }
 
     // NOTE: Automatically drops the encoder
     pass_handle.drop();
