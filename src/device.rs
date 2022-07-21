@@ -622,8 +622,12 @@ pub unsafe extern "C" fn wgpuQueueSubmit(
         command_buffers.push(command_buffer.expect("invalid command buffer"))
     }
 
-    gfx_select!(queue => GLOBAL.queue_submit(queue, &command_buffers))
-        .expect("Unable to submit queue");
+    let error = gfx_select!(queue => GLOBAL.queue_submit(queue, &command_buffers));
+    if let Err(error) = error {
+        // TODO figure out what device the encoder belongs to and call
+        // handle_device_error()
+        log::error!("queue_submit() failed: {:?}", error);
+    }
 }
 
 #[no_mangle]
