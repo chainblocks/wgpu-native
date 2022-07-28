@@ -21,6 +21,11 @@ crate-type = ["lib", "cdylib", "staticlib"]
 default = []
 angle = ["wgc/angle"]
 vulkan-portability = ["wgc/vulkan-portability"]
+profile = ["profiling", "profiling/profile-with-tracy"]
+
+[dependencies.profiling]
+version = "1.0"
+optional = true
 
 [dependencies.wgc]
 package = "wgpu-core"
