@@ -1088,8 +1088,6 @@ dependencies = [
 [[package]]
 name = "tracy-client"
 version = "0.13.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "42ebfe7a24c18b5ba86d8920c124b41b942352f863fbe0c84d3d63428fa1860f"
 dependencies = [
  "loom",
  "once_cell",
@@ -1098,9 +1096,7 @@ dependencies = [
 
 [[package]]
 name = "tracy-client-sys"
-version = "0.17.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "178d021455e83078bb38c00b70046b95117ef0a0312cbef925f426d833d11c79"
+version = "0.17.0"
 dependencies = [
  "cc",
 ]
@@ -1280,6 +1276,7 @@ dependencies = [
  "profiling",
  "raw-window-handle",
  "thiserror",
+ "tracy-client",
  "wgpu-core",
  "wgpu-types",
 ]

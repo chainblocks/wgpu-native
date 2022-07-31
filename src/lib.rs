@@ -484,3 +484,9 @@ pub unsafe extern "C" fn wgpuFree(ptr: *mut u8, size: usize, align: usize) {
         core::alloc::Layout::from_size_align_unchecked(size, align),
     );
 }
+
+#[cfg(feature = "profile")]
+#[no_mangle]
+pub unsafe extern "C" fn rust_setupProfiling() {
+    tracy_client::Client::start();
+}
