@@ -15,7 +15,7 @@ keywords = ["graphics"]
 license = "MIT OR Apache-2.0"
 
 [lib]
-crate-type = ["lib", "cdylib", "staticlib"]
+crate-type = ["lib"]
 
 [features]
 default = ["wgsl", "spirv", "glsl", "trace"]
