@@ -232,9 +232,9 @@ pub mod native {
 
 pub type Label<'a> = Option<Cow<'a, str>>;
 
-struct OwnedLabel(Option<String>);
+pub struct OwnedLabel(Option<String>);
 impl OwnedLabel {
-    fn new(ptr: *const std::os::raw::c_char) -> Self {
+    pub fn new(ptr: *const std::os::raw::c_char) -> Self {
         Self(if ptr.is_null() {
             None
         } else {
@@ -245,13 +245,13 @@ impl OwnedLabel {
             )
         })
     }
-    fn into_inner(self) -> Option<String> {
+    pub fn into_inner(self) -> Option<String> {
         self.0
     }
-    fn as_cow(&self) -> Option<Cow<str>> {
+    pub fn as_cow(&self) -> Option<Cow<str>> {
         self.0.as_ref().map(|s| Cow::Borrowed(s.as_str()))
     }
-    fn into_cow<'a>(self) -> Option<Cow<'a, str>> {
+    pub fn into_cow<'a>(self) -> Option<Cow<'a, str>> {
         self.0.map(Cow::Owned)
     }
 }
