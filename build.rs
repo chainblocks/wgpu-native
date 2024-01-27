@@ -10,7 +10,7 @@ fn main() {
         dx12: { all(windows, feature = "dx12") },
         metal: { all(apple, feature = "metal") },
         vulkan: { any(windows, unix_wo_apple, feature = "vulkan-portability") },
-        gles: { any(windows, unix_wo_apple, feature = "angle") },
+        gles: {feature = "gles"},
     }
 
     println!("cargo:rerun-if-changed=ffi/webgpu-headers/webgpu.h");
