@@ -356,7 +356,7 @@ impl Drop for WGPUSurfaceImpl {
 }
 
 #[derive(Copy, Clone)]
-struct TextureData {
+pub struct TextureData {
     pub usage: native::WGPUTextureUsageFlags,
     pub dimension: native::WGPUTextureDimension,
     pub size: native::WGPUExtent3D,
