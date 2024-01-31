@@ -3892,16 +3892,20 @@ pub unsafe extern "C" fn wgpuSurfaceGetPreferredFormat(
         Err(err) => handle_error_fatal(context, err, "wgpuSurfaceGetPreferredFormat"),
     };
 
-    match caps
+    let fmt: &wgt::TextureFormat = caps
         .formats
         .first()
-        .and_then(|f| conv::to_native_texture_format(*f))
-    {
+        .expect("Surface has no compatible formats");
+
+    match conv::to_native_texture_format(*fmt) {
         Some(format) => format,
-        None => panic!(
-            "Error in wgpuSurfaceGetPreferredFormat: unsupported format.\n\
-            Please report it to https://github.com/gfx-rs/wgpu-native"
-        ),
+        None => {
+            panic!(
+                "Error in wgpuSurfaceGetPreferredFormat: unsupported format ({:?}).\n\
+                Please report it to https://github.com/gfx-rs/wgpu-native",
+                *fmt
+            )
+        }
     }
 }
 
