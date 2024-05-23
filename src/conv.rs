@@ -1,6 +1,7 @@
 use crate::native;
 use crate::utils::{make_slice, ptr_into_label, ptr_into_pathbuf};
 use crate::{follow_chain, map_enum};
+use std::collections::HashMap;
 use std::num::{NonZeroIsize, NonZeroU32, NonZeroU64};
 use std::ptr::NonNull;
 use std::{borrow::Cow, ffi::CStr};
@@ -559,8 +560,8 @@ pub enum ShaderParseError {
     #[error(transparent)]
     Spirv(#[from] naga::front::spv::Error),
     #[cfg(feature = "glsl")]
-    #[error("GLSL Parse Error: {0:?}")]
-    Glsl(Vec<naga::front::glsl::Error>),
+    #[error(transparent)]
+    Glsl(#[from] naga::front::glsl::ParseError),
 }
 
 #[inline]
@@ -1609,6 +1610,7 @@ pub unsafe fn map_surface(
     panic!("Error: Unsupported Surface");
 }
 
+#[inline]
 pub fn map_surface_configuration(
     config: &native::WGPUSurfaceConfiguration,
     extras: Option<&native::WGPUSurfaceConfigurationExtras>,
@@ -1631,5 +1633,34 @@ pub fn map_surface_configuration(
             // Default is 2, https://github.com/gfx-rs/wgpu/blob/484457d95993b00b91905fae0e539a093423cc28/wgpu/src/lib.rs#L4796
             None => 2,
         },
+    }
+}
+
+#[inline]
+pub fn map_programmable_stage_descriptor(
+    desc: &native::WGPUProgrammableStageDescriptor,
+) -> wgc::pipeline::ProgrammableStageDescriptor {
+    let mut constants = HashMap::new();
+    make_slice(desc.constants, desc.constantCount)
+        .iter()
+        .for_each(|entry| {
+            constants.insert(
+                unsafe { CStr::from_ptr(entry.key) }
+                    .to_str()
+                    .unwrap()
+                    .to_string(),
+                entry.value,
+            );
+        });
+
+    wgc::pipeline::ProgrammableStageDescriptor {
+        module: unsafe { desc.module.as_ref() }
+            .expect("invalid shader module for compute pipeline descriptor")
+            .id
+            .expect("invalid shader module for compute pipeline descriptor"),
+        entry_point: ptr_into_label(desc.entryPoint),
+        constants: Cow::Owned(constants),
+        // TODO: expose in wgpu.h
+        zero_initialize_workgroup_memory: false,
     }
 }
