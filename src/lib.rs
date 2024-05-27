@@ -157,9 +157,9 @@ impl Drop for WGPUComputePipelineImpl {
     }
 }
 
-struct QueueId {
-    context: Arc<Context>,
-    id: id::QueueId,
+pub struct QueueId {
+    pub context: Arc<Context>,
+    pub id: id::QueueId,
 }
 impl Drop for QueueId {
     fn drop(&mut self) {
@@ -171,10 +171,10 @@ impl Drop for QueueId {
 }
 
 pub struct WGPUDeviceImpl {
-    context: Arc<Context>,
-    id: id::DeviceId,
-    queue: Arc<QueueId>,
-    error_sink: ErrorSink,
+    pub context: Arc<Context>,
+    pub id: id::DeviceId,
+    pub queue: Arc<QueueId>,
+    pub error_sink: ErrorSink,
 }
 impl Drop for WGPUDeviceImpl {
     fn drop(&mut self) {
@@ -192,12 +192,12 @@ impl Drop for WGPUDeviceImpl {
 }
 
 pub struct WGPUInstanceImpl {
-    context: Arc<Context>,
+    pub context: Arc<Context>,
 }
 
 pub struct WGPUPipelineLayoutImpl {
-    context: Arc<Context>,
-    id: id::PipelineLayoutId,
+    pub context: Arc<Context>,
+    pub id: id::PipelineLayoutId,
 }
 impl Drop for WGPUPipelineLayoutImpl {
     fn drop(&mut self) {
@@ -209,13 +209,13 @@ impl Drop for WGPUPipelineLayoutImpl {
 }
 
 struct QuerySetData {
-    query_type: native::WGPUQueryType,
-    query_count: u32,
+    pub query_type: native::WGPUQueryType,
+    pub query_count: u32,
 }
 pub struct WGPUQuerySetImpl {
-    context: Arc<Context>,
-    id: id::QuerySetId,
-    data: QuerySetData,
+    pub context: Arc<Context>,
+    pub id: id::QuerySetId,
+    pub data: QuerySetData,
 }
 impl Drop for WGPUQuerySetImpl {
     fn drop(&mut self) {
@@ -227,13 +227,13 @@ impl Drop for WGPUQuerySetImpl {
 }
 
 pub struct WGPUQueueImpl {
-    queue: Arc<QueueId>,
-    error_sink: ErrorSink,
+    pub queue: Arc<QueueId>,
+    pub error_sink: ErrorSink,
 }
 
 pub struct WGPURenderBundleImpl {
-    context: Arc<Context>,
-    id: id::RenderBundleId,
+    pub context: Arc<Context>,
+    pub id: id::RenderBundleId,
 }
 impl Drop for WGPURenderBundleImpl {
     fn drop(&mut self) {
@@ -245,8 +245,8 @@ impl Drop for WGPURenderBundleImpl {
 }
 
 pub struct WGPURenderBundleEncoderImpl {
-    context: Arc<Context>,
-    encoder: *mut Option<*mut wgc::command::RenderBundleEncoder>,
+    pub context: Arc<Context>,
+    pub encoder: *mut Option<*mut wgc::command::RenderBundleEncoder>,
 }
 impl Drop for WGPURenderBundleEncoderImpl {
     fn drop(&mut self) {
@@ -263,9 +263,9 @@ unsafe impl Send for WGPURenderBundleEncoderImpl {}
 unsafe impl Sync for WGPURenderBundleEncoderImpl {}
 
 pub struct WGPURenderPassEncoderImpl {
-    context: Arc<Context>,
-    encoder: *mut dyn DynRenderPass,
-    error_sink: ErrorSink,
+    pub context: Arc<Context>,
+    pub encoder: *mut dyn DynRenderPass,
+    pub error_sink: ErrorSink,
 }
 impl Drop for WGPURenderPassEncoderImpl {
     fn drop(&mut self) {
@@ -279,9 +279,9 @@ unsafe impl Send for WGPURenderPassEncoderImpl {}
 unsafe impl Sync for WGPURenderPassEncoderImpl {}
 
 pub struct WGPURenderPipelineImpl {
-    context: Arc<Context>,
-    id: id::RenderPipelineId,
-    error_sink: ErrorSink,
+    pub context: Arc<Context>,
+    pub id: id::RenderPipelineId,
+    pub error_sink: ErrorSink,
 }
 impl Drop for WGPURenderPipelineImpl {
     fn drop(&mut self) {
@@ -293,8 +293,8 @@ impl Drop for WGPURenderPipelineImpl {
 }
 
 pub struct WGPUSamplerImpl {
-    context: Arc<Context>,
-    id: id::SamplerId,
+    pub context: Arc<Context>,
+    pub id: id::SamplerId,
 }
 impl Drop for WGPUSamplerImpl {
     fn drop(&mut self) {
@@ -306,8 +306,8 @@ impl Drop for WGPUSamplerImpl {
 }
 
 pub struct WGPUShaderModuleImpl {
-    context: Arc<Context>,
-    id: Option<id::ShaderModuleId>,
+    pub context: Arc<Context>,
+    pub id: Option<id::ShaderModuleId>,
 }
 impl Drop for WGPUShaderModuleImpl {
     fn drop(&mut self) {
@@ -321,17 +321,17 @@ impl Drop for WGPUShaderModuleImpl {
 }
 
 struct SurfaceData {
-    device_id: id::DeviceId,
-    error_sink: ErrorSink,
-    texture_data: TextureData,
+    pub device_id: id::DeviceId,
+    pub error_sink: ErrorSink,
+    pub texture_data: TextureData,
 }
 
 pub struct WGPUSurfaceImpl {
-    context: Arc<Context>,
-    id: id::SurfaceId,
-    data: Mutex<Option<SurfaceData>>,
+    pub context: Arc<Context>,
+    pub id: id::SurfaceId,
+    pub data: Mutex<Option<SurfaceData>>,
     // Shared bool between Texture & Surface to track surface_present calls
-    has_surface_presented: Arc<atomic::AtomicBool>,
+    pub has_surface_presented: Arc<atomic::AtomicBool>,
 }
 impl Drop for WGPUSurfaceImpl {
     fn drop(&mut self) {
@@ -342,23 +342,23 @@ impl Drop for WGPUSurfaceImpl {
 }
 
 #[derive(Copy, Clone)]
-struct TextureData {
-    usage: native::WGPUTextureUsageFlags,
-    dimension: native::WGPUTextureDimension,
-    size: native::WGPUExtent3D,
-    format: native::WGPUTextureFormat,
-    mip_level_count: u32,
-    sample_count: u32,
+pub struct TextureData {
+    pub usage: native::WGPUTextureUsageFlags,
+    pub dimension: native::WGPUTextureDimension,
+    pub size: native::WGPUExtent3D,
+    pub format: native::WGPUTextureFormat,
+    pub mip_level_count: u32,
+    pub sample_count: u32,
 }
 
 pub struct WGPUTextureImpl {
-    context: Arc<Context>,
-    id: id::TextureId,
-    error_sink: ErrorSink,
-    data: TextureData,
-    surface_id: Option<id::SurfaceId>,
+    pub context: Arc<Context>,
+    pub id: id::TextureId,
+    pub error_sink: ErrorSink,
+    pub data: TextureData,
+    pub surface_id: Option<id::SurfaceId>,
     // Shared bool between Texture & Surface to track surface_present calls
-    has_surface_presented: Arc<atomic::AtomicBool>,
+    pub has_surface_presented: Arc<atomic::AtomicBool>,
 }
 impl Drop for WGPUTextureImpl {
     fn drop(&mut self) {
@@ -384,8 +384,8 @@ impl Drop for WGPUTextureImpl {
 }
 
 pub struct WGPUTextureViewImpl {
-    context: Arc<Context>,
-    id: id::TextureViewId,
+    pub context: Arc<Context>,
+    pub id: id::TextureViewId,
 }
 impl Drop for WGPUTextureViewImpl {
     fn drop(&mut self) {
@@ -397,8 +397,8 @@ impl Drop for WGPUTextureViewImpl {
 }
 
 struct DeviceCallback<T> {
-    callback: T,
-    userdata: *mut std::os::raw::c_void,
+    pub callback: T,
+    pub userdata: *mut std::os::raw::c_void,
 }
 unsafe impl<T> Send for DeviceCallback<T> {}
 
@@ -475,14 +475,14 @@ pub enum ErrorFilter {
     Validation,
 }
 
-type ErrorSink = Arc<Mutex<ErrorSinkRaw>>;
+pub type ErrorSink = Arc<Mutex<ErrorSinkRaw>>;
 
 struct ErrorScope {
     error: Option<crate::Error>,
     filter: crate::ErrorFilter,
 }
 
-struct ErrorSinkRaw {
+pub struct ErrorSinkRaw {
     scopes: Vec<ErrorScope>,
     uncaptured_handler: UncapturedErrorCallback,
     device_lost_handler: DeviceLostCallback,
