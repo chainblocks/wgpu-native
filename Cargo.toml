@@ -22,26 +22,26 @@ resolver = "2"
 
 [workspace.dependencies.wgc]
 package = "wgpu-core"
-git = "https://github.com/gfx-rs/wgpu"
-tag = "v22.1.0"
+path = "../wgpu/wgpu-core"
+version = "22.0.0"
 
 [workspace.dependencies.wgt]
 package = "wgpu-types"
-git = "https://github.com/gfx-rs/wgpu"
-tag = "v22.1.0"
+path = "../wgpu/wgpu-types"
+version = "22.0.0"
 
 [workspace.dependencies.hal]
 package = "wgpu-hal"
-git = "https://github.com/gfx-rs/wgpu"
-tag = "v22.1.0"
+path = "../wgpu/wgpu-hal"
+version = "22.0.0"
 
 [workspace.dependencies.naga]
 package = "naga"
-git = "https://github.com/gfx-rs/wgpu"
-tag = "v22.1.0"
+path = "../wgpu/naga"
+version = "22.0.0"
 
 [lib]
-crate-type = ["cdylib", "staticlib"]
+crate-type = ["lib"]
 
 [features]
 default = ["wgsl", "spirv", "glsl", "dx12", "metal"]
