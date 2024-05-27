@@ -22,7 +22,7 @@ unsafe impl Send for Userdata {}
 unsafe impl Sync for Userdata {}
 
 #[inline]
-pub(crate) fn ptr_into_label<'a>(ptr: *const std::ffi::c_char) -> wgc::Label<'a> {
+pub fn ptr_into_label<'a>(ptr: *const std::ffi::c_char) -> wgc::Label<'a> {
     unsafe { ptr.as_ref() }.and_then(|ptr| {
         unsafe { CStr::from_ptr(ptr) }
             .to_str()
