@@ -1029,18 +1029,18 @@ pub fn write_global_report(
 
     #[cfg(any(
         all(
-            any(target_os = "ios", target_os = "macos"),
+            any(target_os = "ios", target_os = "visionos", target_os = "macos"),
             feature = "vulkan-portability"
         ),
         windows,
-        all(unix, not(target_os = "ios"), not(target_os = "macos"))
+        all(unix, not(target_os = "ios"), not(target_os = "visionos"), not(target_os = "macos"))
     ))]
     if let Some(ref vulkan) = report.vulkan {
         native_report.vulkan = map_hub_report(vulkan);
         native_report.backendType = native::WGPUBackendType_Vulkan;
     }
 
-    #[cfg(all(any(target_os = "ios", target_os = "macos"), feature = "metal"))]
+    #[cfg(all(any(target_os = "ios", target_os = "visionos", target_os = "macos"), feature = "metal"))]
     if let Some(ref metal) = report.metal {
         native_report.metal = map_hub_report(metal);
         native_report.backendType = native::WGPUBackendType_Metal;
@@ -1566,7 +1566,7 @@ pub enum CreateSurfaceParams {
             raw_window_handle::RawWindowHandle,
         ),
     ),
-    #[cfg(all(any(target_os = "ios", target_os = "macos"), feature = "metal"))]
+    #[cfg(all(any(target_os = "ios", target_os = "visionos", target_os = "macos"), feature = "metal"))]
     Metal(*mut std::ffi::c_void),
 }
 
@@ -1626,7 +1626,7 @@ pub unsafe fn map_surface(
         ));
     }
 
-    #[cfg(all(any(target_os = "ios", target_os = "macos"), feature = "metal"))]
+    #[cfg(all(any(target_os = "ios", target_os = "visionos", target_os = "macos"), feature = "metal"))]
     if let Some(metal) = _metal {
         return CreateSurfaceParams::Metal(metal.layer);
     }

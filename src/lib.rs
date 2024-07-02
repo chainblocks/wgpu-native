@@ -2641,7 +2641,7 @@ pub unsafe extern "C" fn wgpuInstanceCreateSurface(
                 Err(cause) => handle_error_fatal(cause, "wgpuInstanceCreateSurface"),
             }
         }
-        #[cfg(all(any(target_os = "ios", target_os = "macos"), feature = "metal"))]
+        #[cfg(all(any(target_os = "ios", target_os = "visionos", target_os = "macos"), feature = "metal"))]
         CreateSurfaceParams::Metal(layer) => {
             match context.instance_create_surface_metal(layer, None) {
                 Ok(surface_id) => surface_id,
