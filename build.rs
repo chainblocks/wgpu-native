@@ -4,7 +4,7 @@ use std::process::Command;
 
 fn main() {
     cfg_aliases::cfg_aliases! {
-        apple: { any(target_os = "ios", target_os = "macos") },
+        apple: { any(target_os = "ios", target_os = "visionos", target_os = "macos") },
         unix_wo_apple: { all(unix, not(apple)) },
 
         dx12: { all(windows, feature = "dx12") },
