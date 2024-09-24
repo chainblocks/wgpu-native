@@ -1051,16 +1051,6 @@ pub fn write_global_report(
         native_report.dx12 = map_hub_report(dx12);
         native_report.backendType = native::WGPUBackendType_D3D12;
     }
-
-    #[cfg(any(
-        feature = "angle",
-        target_os = "windows",
-        all(unix, not(target_os = "ios"), not(target_os = "macos"))
-    ))]
-    if let Some(ref gl) = report.gl {
-        native_report.gl = map_hub_report(gl);
-        native_report.backendType = native::WGPUBackendType_OpenGL;
-    }
 }
 
 #[inline]

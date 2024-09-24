@@ -58,9 +58,6 @@ dx12 = ["wgc/dx12"]
 ## Enables the Metal backend on macOS & iOS.
 metal = ["wgc/metal"]
 
-## Enables the GLES backend via [ANGLE](https://github.com/google/angle) on macOS using.
-angle = ["wgc/gles"]
-
 ## Enables the Vulkan backend on macOS & iOS.
 vulkan-portability = ["wgc/vulkan"]
 
@@ -111,20 +108,10 @@ features = ["raw-window-handle"]
 [target.'cfg(any(target_os = "macos", target_os = "ios"))'.dependencies.wgc]
 workspace = true
 
-# We want the wgpu-core Direct3D backend and OpenGL (via WGL) on Windows.
-[target.'cfg(windows)'.dependencies.wgc]
-workspace = true
-features = ["gles"]
-
 # We want the wgpu-core Vulkan backend on Unix (but not macOS, iOS) and Windows.
 [target.'cfg(any(windows, all(unix, not(target_os = "ios"), not(target_os = "macos"))))'.dependencies.wgc]
 workspace = true
 features = ["vulkan"]
-
-# We want the wgpu-core GLES backend on Unix (but not macOS, iOS).
-[target.'cfg(all(unix, not(target_os = "ios"), not(target_os = "macos")))'.dependencies.wgc]
-workspace = true
-features = ["gles"]
 
 [dependencies.hal]
 workspace = true
