@@ -93,7 +93,7 @@ serde = ["dep:serde", "wgc/serde"]
 
 # Uncomment once upstream adds it again — https://github.com/gfx-rs/wgpu/issues/5974
 # ## Allow writing of trace capture files. See [`Adapter::request_device`].
-# trace = ["serde", "wgc/trace"]
+trace = ["serde", "wgc/trace"]
 
 ## Allow deserializing of trace capture files that were written with the `trace` feature.
 ## To replay a trace file use the [wgpu player](https://github.com/gfx-rs/wgpu/tree/trunk/player).
